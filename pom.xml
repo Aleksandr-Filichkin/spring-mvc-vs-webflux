@@ -17,31 +17,67 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
-	<dependencies>
+	<profiles>
+		<profile>
+			<id>web-flux</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
 
-	<!--Enable it to test WebFlux and Netty
-	Disable if you need Tomcat and Spring MVC-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
+				<!--Enable it to test WebFlux and Netty
+        Disable if you need Tomcat and Spring MVC-->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-webflux</artifactId>
+				</dependency>
 
 
-		<!--
-		Enable if you need Tomcat and Spring MVC-
-		Disable it to test WebFlux and Netty-->
+				<!--
+        Enable if you need Tomcat and Spring MVC-
+        Disable it to test WebFlux and Netty-->
 
-		<!--<dependency>-->
-		<!--<groupId>org.springframework.boot</groupId>-->
-		<!--<artifactId>spring-boot-starter-web</artifactId>-->
-		<!--</dependency>-->
+				<!--<dependency>-->
+				<!--<groupId>org.springframework.boot</groupId>-->
+				<!--<artifactId>spring-boot-starter-web</artifactId>-->
+				<!--</dependency>-->
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-test</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>servlet</id>
+			<dependencies>
+
+				<!--
+        Enable if you need Tomcat and Spring MVC-
+        Disable it to test WebFlux and Netty-->
+
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</dependency>
+
+				<!--Enable it to test WebFlux and Netty
+        Disable if you need Tomcat and Spring MVC-->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-webflux</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-test</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 
 	<build>
 		<plugins>
