@@ -41,18 +41,21 @@ public class Controller {
 
     @GetMapping(value = "/sync")
     public String getUserSync(@RequestParam long delay) {
-        return sendRequestWithHttpClient(delay).thenApply(x -> "sync: " + x).join();
+        return sendRequestWithJavaHttpClient(delay).thenApply(x -> "sync: " + x).join();
     }
 
-
-    @GetMapping(value = "/completable-future")
-    public CompletableFuture<String> getUserUsingWithCF(@RequestParam long delay) {
-        return sendRequestWithHttpClient(delay).thenApply(x -> "completable-future: " + x);
+    @GetMapping(value = "/completable-future-java-client")
+    public CompletableFuture<String> getUserUsingWithCFAndJavaClient(@RequestParam long delay) {
+        return sendRequestWithJavaHttpClient(delay).thenApply(x -> "completable-future-java-client: " + x);
+    }
+    @GetMapping(value = "/completable-future-apache-client")
+    public CompletableFuture<String> getUserUsingWithCFAndApacheCLient(@RequestParam long delay) {
+        return sendRequestWithApacheHttpClient(delay).thenApply(x -> "completable-future-apache-client: " + x);
     }
 
     @GetMapping(value = "/webflux-java-http-client")
     public Mono<String> getUserUsingWebfluxJavaHttpClient(@RequestParam long delay) {
-        CompletableFuture<String> stringCompletableFuture = sendRequestWithHttpClient(delay).thenApply(x -> "webflux-java-http-client: " + x);
+        CompletableFuture<String> stringCompletableFuture = sendRequestWithJavaHttpClient(delay).thenApply(x -> "webflux-java-http-client: " + x);
         return Mono.fromFuture(stringCompletableFuture);
     }
 
@@ -63,26 +66,30 @@ public class Controller {
 
     @GetMapping(value = "/webflux-apache-client")
     public Mono<String> apache(@RequestParam long delay) {
-        CompletableFuture<org.apache.http.HttpResponse> cf = new CompletableFuture<>();
-        FutureCallback<org.apache.http.HttpResponse> callback = new HttpResponseCallback(cf);
-        HttpUriRequest request = new HttpGet(userServiceHost+"/user/?delay="+delay);
-        apacheClient.execute(request, callback);
-        return Mono.fromCompletionStage(cf.thenApply(response -> {
-            try {
-                return "apache: " + EntityUtils.toString(response.getEntity());
-            } catch (ParseException | IOException e) {
-                return e.toString();
-            }
-        }).exceptionally(Throwable::toString));
+        return Mono.fromCompletionStage(sendRequestWithApacheHttpClient(delay).thenApply(x -> "webflux-apache-client: " + x));
     }
 
-    private CompletableFuture<String> sendRequestWithHttpClient(long delay) {
+    private CompletableFuture<String> sendRequestWithJavaHttpClient(long delay) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(String.format("%s/user/?delay=%d", userServiceHost, delay)))
                 .GET()
                 .build();
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body);
+    }
+
+    private CompletableFuture<String> sendRequestWithApacheHttpClient(long delay) {
+        CompletableFuture<org.apache.http.HttpResponse> cf = new CompletableFuture<>();
+        FutureCallback<org.apache.http.HttpResponse> callback = new HttpResponseCallback(cf);
+        HttpUriRequest request = new HttpGet(userServiceHost+"/user/?delay="+delay);
+        apacheClient.execute(request, callback);
+        return cf.thenApply(response -> {
+            try {
+                return EntityUtils.toString(response.getEntity());
+            } catch (ParseException | IOException e) {
+                return e.toString();
+            }
+        }).exceptionally(Throwable::toString);
     }
 }
 
