@@ -15,5 +15,5 @@ Compare Performance for Rest Service that proxies request to underline Rest serv
 For WebFlux(Netty) use "web-flux" maven profile
 **mvn clean install -P web-flux**
 
-For Servlet(Tomcat) use "web-flux" maven profile
+For Servlet(Tomcat) use "servlet" maven profile
 **mvn clean install -P servlet**
