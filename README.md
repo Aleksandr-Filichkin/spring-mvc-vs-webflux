@@ -1,5 +1,7 @@
 # spring-mvc-vs-webflux
 
+https://medium.com/@filia.aleks/microservice-performance-battle-spring-mvc-vs-webflux-80d39fd81bf0
+
 Compare Performance for Rest Service that proxies request to underline Rest service and return it back.
 <un>
 <li> Servlet blocking call with Java 11 client (endpoint /sync) </li>
