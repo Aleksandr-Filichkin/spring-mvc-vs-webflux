@@ -41,7 +41,7 @@ public class Controller {
 
     @GetMapping(value = "/sync")
     public String getUserSync(@RequestParam long delay) {
-        return sendRequestWithJavaHttpClient(delay).thenApply(x -> "sync: " + x).join();
+        return sendRequestWithApacheHttpClient(delay).thenApply(x -> "sync: " + x).join();
     }
 
     @GetMapping(value = "/completable-future-java-client")
@@ -49,7 +49,7 @@ public class Controller {
         return sendRequestWithJavaHttpClient(delay).thenApply(x -> "completable-future-java-client: " + x);
     }
     @GetMapping(value = "/completable-future-apache-client")
-    public CompletableFuture<String> getUserUsingWithCFAndApacheCLient(@RequestParam long delay) {
+    public CompletableFuture<String> getUserUsingWithCFAndApacheClient(@RequestParam long delay) {
         return sendRequestWithApacheHttpClient(delay).thenApply(x -> "completable-future-apache-client: " + x);
     }
 
