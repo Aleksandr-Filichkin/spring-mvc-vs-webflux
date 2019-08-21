@@ -72,6 +72,11 @@
 					<artifactId>spring-boot-starter-web</artifactId>
 				</dependency>
 
+				<dependency>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore-nio</artifactId>
+				</dependency>
+
 				<!--Enable it to test WebFlux and Netty
         Disable if you need Tomcat and Spring MVC-->
 				<dependency>
