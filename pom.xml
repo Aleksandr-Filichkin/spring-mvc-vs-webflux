@@ -16,9 +16,6 @@
 
     <properties>
         <java.version>11</java.version>
-        <gatling.version>3.2.0</gatling.version>
-        <gatling-plugin.version>3.0.3</gatling-plugin.version>
-        <scala-maven-plugin.version>4.1.1</scala-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -28,12 +25,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.gatling.highcharts</groupId>
-            <artifactId>gatling-charts-highcharts</artifactId>
-            <version>${gatling.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 
@@ -42,36 +33,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>${scala-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                        <configuration>
-                            <jvmArgs>
-                                <jvmArg>-Xss100M</jvmArg>
-                            </jvmArgs>
-                            <args>
-                                <arg>-target:jvm-1.8</arg>
-                                <arg>-deprecation</arg>
-                                <arg>-feature</arg>
-                                <arg>-unchecked</arg>
-                                <arg>-language:implicitConversions</arg>
-                                <arg>-language:postfixOps</arg>
-                            </args>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>io.gatling</groupId>
-                <artifactId>gatling-maven-plugin</artifactId>
-                <version>${gatling-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
